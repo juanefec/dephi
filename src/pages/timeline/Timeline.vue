@@ -1,70 +1,70 @@
 <template>
-    <q-scroll-area class="fit">
-      <q-list separator>
-        <transition-group
-          appear
-          enter-active-class="animated fadeIn slow"
-          leave-active-class="animated fadeOut slow"
-        >
-          <q-item v-for="post in posts" :key="post.id" class="qweet q-py-md" >
-            <q-item-section avatar top>
-              <q-avatar size="xl">
-                <img :src="'https://ipfs.io/ipfs/' + post.authorProfilePic" />
-              </q-avatar>
-            </q-item-section>
+  <q-scroll-area class="fit">
+    <q-list separator>
+      <transition-group
+        appear
+        enter-active-class="animated fadeIn slow"
+        leave-active-class="animated fadeOut slow"
+      >
+        <q-item v-for="post in posts" :key="post.id" class="qweet q-py-md">
+          <q-item-section avatar top>
+            <q-avatar size="xl">
+              <img :src="'https://ipfs.io/ipfs/' + post.authorProfilePic" />
+            </q-avatar>
+          </q-item-section>
 
-            <q-item-section>
-              <q-item-label
-                @click="goToProfile(post.author)"
-                class="text-subtitle1"
-              >
-                <strong>{{ post.authorName }}</strong>
-                <span class="text-grey-7">
-                  @{{ post.author }} <br class="lt-md" />&bull;
-                  {{ post.timestamp || new Date() | relativeDate }}
-                </span>
-              </q-item-label>
-              <q-item-label class="qweet-content text-body1">{{
-                post.text
-              }}</q-item-label>
-              <div
-                v-if="post.media != 'none'"
-                class="qweet-icons row justify-between q-mt-sm"
-              >
-                <q-card class="my-card">
-                  <video
-                    v-if="post.mediaType && post.mediaType.includes('video')"
-                    width="400px"
-                    controls
-                  >
-                    <source
-                      :src="'https://ipfs.io/ipfs/' + post.media"
-                      :type="post.mediaType"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
-
-                  <audio
-                    v-if="post.mediaType && post.mediaType.includes('audio')"
-                    width="400px"
-                    controls
-                  >
-                    <source
-                      :src="'https://ipfs.io/ipfs/' + post.media"
-                      :type="post.mediaType"
-                    />
-                    Your browser does not support the audio tag.
-                  </audio>
-
-                  <q-img
-                    v-if="post.mediaType && post.mediaType.includes('image')"
+          <q-item-section>
+            <q-item-label
+              @click="goToProfile(post.author)"
+              class="text-subtitle1"
+            >
+              <strong>{{ post.authorName }}</strong>
+              <span class="text-grey-7">
+                @{{ post.author }} <br class="lt-md" />&bull;
+                {{ post.timestamp || new Date() | relativeDate }}
+              </span>
+            </q-item-label>
+            <q-item-label class="qweet-content text-body1">{{
+              post.text
+            }}</q-item-label>
+            <div
+              v-if="post.media != 'none'"
+              class="qweet-icons row justify-between q-mt-sm"
+            >
+              <q-card class="my-card">
+                <video
+                  v-if="post.mediaType && post.mediaType.includes('video')"
+                  width="400px"
+                  controls
+                >
+                  <source
                     :src="'https://ipfs.io/ipfs/' + post.media"
-                    width="400px"
+                    :type="post.mediaType"
                   />
-                </q-card>
-              </div>
-              <div class="qweet-icons row q-mt-sm">
-                <!-- <q-btn
+                  Your browser does not support the video tag.
+                </video>
+
+                <audio
+                  v-if="post.mediaType && post.mediaType.includes('audio')"
+                  width="400px"
+                  controls
+                >
+                  <source
+                    :src="'https://ipfs.io/ipfs/' + post.media"
+                    :type="post.mediaType"
+                  />
+                  Your browser does not support the audio tag.
+                </audio>
+
+                <q-img
+                  v-if="post.mediaType && post.mediaType.includes('image')"
+                  :src="'https://ipfs.io/ipfs/' + post.media"
+                  width="400px"
+                />
+              </q-card>
+            </div>
+            <div class="qweet-icons row q-mt-sm">
+              <!-- <q-btn
                   color="grey"
                   icon="far fa-comment"
                   size="sm"
@@ -86,31 +86,31 @@
                   flat
                   round
                 /> -->
-                <q-btn
-                  @click="tipOwner(post.id, post.tipInput)"
-                  size=""
-                  icon="fab fa-ethereum"
-                  flat
-                  round
-                >
-                </q-btn>
-                <q-input
-                  v-model="post.tipInput"
-                  width="30px"
-                  type="number"
-                  dense
-                ></q-input>
-                <q-item-label class="text-subtitle1">
-                  <span class="text-grey-7">
-                    Tips collected: {{ post.collectedTips || 0 }} ETH
-                  </span>
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-        </transition-group>
-      </q-list>
-    </q-scroll-area>
+              <q-btn
+                @click="tipOwner(post.id, post.tipInput)"
+                size=""
+                icon="fab fa-ethereum"
+                flat
+                round
+              >
+              </q-btn>
+              <q-input
+                v-model="post.tipInput"
+                width="30px"
+                type="number"
+                dense
+              ></q-input>
+              <q-item-label class="text-subtitle1">
+                <span class="text-grey-7">
+                  Tips collected: {{ post.collectedTips || 0 }} ETH
+                </span>
+              </q-item-label>
+            </div>
+          </q-item-section>
+        </q-item>
+      </transition-group>
+    </q-list>
+  </q-scroll-area>
 </template>
 
 <script>
@@ -141,11 +141,11 @@ export default {
             icon: "cloud_done",
             message: "Tipped",
           });
+          for (let i = 0; i < this.posts.length; i++) {
+            if (this.posts[i].id == postID)
+              this.posts[i].tipInput = this.tipDefault;
+          }
         });
-      for (let i = 0; i < this.posts.length; i++) {
-        if (this.posts[i].id == postID)
-          this.posts[i].tipInput = this.tipDefault;
-      }
     },
   },
   filters: {
@@ -154,7 +154,6 @@ export default {
     },
   },
   async mounted() {
-
     this.wallet = await this.$dephi();
 
     let updateTimeline = async () => {

@@ -1,7 +1,16 @@
 # DePhi (dephi)
 ## Decentralized Philanthropy
 
-A decentralized  ''''Cross-Platrom Twitter'''' (you need Metamask chrome extension) clone created with Quasar Framework, VueJS & Ethereum Blockchain.
+A decentralized  ''''Cross-Platrom Twitter'''' (you need Metamask chrome extension) clone where likes are tips in Ethers!  
+Created with Quasar Framework, VueJS & Ethereum Blockchain.
+
+Your profile data will be forever uploaded, and so are all of your posts, even you won't be able to take them down.  
+They will allways be waiting for a tip to your wallet...
+
+![](./demo/flasking.PNG)
+![](/demo/flasked.PNG)
+![](/demo/tipping.PNG)
+![](/demo/tipcollected.PNG)
 #### WIP TODO
 - loaders
 - redo timeline.
