@@ -1,6 +1,15 @@
 # DePhi (dephi)
+## Decentralized Philanthropy
 
-A ''''''Cross-Platrom Twitter'''''' (you need Metamask chrome extension) clone created with Quasar Framework, VueJS & Ethereum Blockchain
+A decentralized  ''''Cross-Platrom Twitter'''' (you need Metamask chrome extension) clone created with Quasar Framework, VueJS & Ethereum Blockchain.
+#### WIP TODO
+- loaders
+- redo timeline.
+- posts in profile
+- tip in profile
+- tip stats in profile
+
+- Backend ?
 
 ## Setup
 - Install Metamask
