@@ -71,7 +71,7 @@
         </div>
 
         <q-separator class="" color="dark" size="10px" />
-      <Timeline/>
+      <Timeline/> 
       </div>
   </q-page>
 </template>

@@ -7,13 +7,7 @@ import routes from './routes'
 import Web3 from 'web3';
 import Flask from '../abis/Flask.json'
 
-
-
-
-
-async function loadWeb3AndIPFS() {
-  
- 
+async function checkWeb3GetWallet() {
   if (window.ethereum) {
     window.web3 = new Web3(window.ethereum)
     await window.ethereum.enable()
@@ -25,23 +19,35 @@ async function loadWeb3AndIPFS() {
     window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
   }
   let accounts = await web3.eth.getAccounts()
-  const networkId = await web3.eth.net.getId()
-  
-  let ipfs = require('ipfs-http-client')({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
+  return accounts[0]
+}
 
-  let result = {
+async function loadWeb3(result) {
+
+  let account = await checkWeb3GetWallet()
+  const networkId = await web3.eth.net.getId()
+
+  result = {
+    ...result,
     web3: window.web3,
-    ipfs: ipfs,
     flask: new web3.eth.Contract(Flask.abi, Flask.networks[networkId].address),
-    address: accounts[0],
-    displayAddress: accounts[0].substr(0, 6)+'...'+accounts[0].substr(-4),
+    address: account,
+    displayAddress: account.substr(0, 6) + '...' + account.substr(-4),
     metamaskUpdater: (accs) => {
       this.address = accs[0],
-      this.displayAddress = accs[0].substr(0, 6)+'...'+accs[0].substr(-4)
+        this.displayAddress = accs[0].substr(0, 6) + '...' + accs[0].substr(-4)
     }
   }
   window.dephi = result
   return result
+}
+
+async function loadWeb3AndIPFS() {
+  let client = {
+    ipfs: require('ipfs-http-client')({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
+  }
+  let res = loadWeb3(client)
+  return res
 }
 
 
@@ -50,6 +56,29 @@ async function loadWeb3AndIPFS() {
 Vue.use(VueRouter)
 
 Vue.prototype.$dephi = loadWeb3AndIPFS
+Vue.prototype.$checkRegister = async function () {
+  try {
+    let dephi = await loadWeb3()
+    let user = await dephi.flask.methods.users(dephi.address).call()
+    
+    console.log(user)
+    if (this.$router) {
+      if (user.name == "") {
+        this.$router.push({
+          path: '/register',
+        })
+      }
+    }
+  } catch (e) {
+    console.log('failing')
+   }
+  finally {
+    setTimeout(this.$checkRegister, 5000)
+  }
+
+
+}
+
 
 /*
  * If not building with SSR mode, you can
@@ -60,8 +89,8 @@ Vue.prototype.$dephi = loadWeb3AndIPFS
  * with the Router instance.
  */
 
-export default function (/* { store, ssrContext } */) {
-  const Router = new VueRouter({
+export default async function (/* { store, ssrContext } */) {
+  const router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes,
 
@@ -72,5 +101,5 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
 
-  return Router
+  return router
 }

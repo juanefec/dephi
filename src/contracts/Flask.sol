@@ -43,7 +43,7 @@ contract Flask {
             msg.sender
         );
 
-        users[msg.sender].ownedImages.push(postCount);
+        users[msg.sender].ownedPosts.push(postCount);
     }
 
     function tipImageOwner(uint256 _id) public payable {
@@ -69,7 +69,7 @@ contract Flask {
         uint256 birthday;
         uint256 timestamp;
         address payable author;
-        uint256[] ownedImages;
+        uint256[] ownedPosts;
     }
 
     function createUser(
@@ -91,7 +91,7 @@ contract Flask {
         // Increment user id
         userCount++;
 
-        uint[] memory _ownedImages;
+        uint256[] memory _ownedPosts;
 
         // Add User to the contract
         users[msg.sender] = User(
@@ -102,7 +102,15 @@ contract Flask {
             _birthday,
             _timestamp,
             msg.sender,
-            _ownedImages
+            _ownedPosts
         );
     }
+
+    function getUserPosts(address _id) external view returns (
+        uint256[] memory
+        ) {
+      return (
+          users[_id].ownedPosts
+          );
+  }
 }

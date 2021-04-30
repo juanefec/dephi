@@ -142,7 +142,6 @@
 </template>
 
 <script>
-import wallet from '../boot/boot'
 export default {
   data () {
     return {
@@ -158,7 +157,7 @@ export default {
     }
   },
   async mounted() {
-    this.wallet = await wallet
+    this.wallet = await this.$dephi()
     this.balance = web3.utils.fromWei(await web3.eth.getBalance(this.wallet.address))
 
 

@@ -49,7 +49,7 @@
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
         />
 
-        <q-toggle v-model="accept" label="I accept the license and terms" />
+        <q-toggle v-model="accept" label="I accept that anything I upload can't be deleted or" />
 
         <div>
           <q-btn label="Submit" type="submit" color="primary" />
